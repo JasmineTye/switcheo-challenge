@@ -3,116 +3,211 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Currency Swap</title>
-    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <title>Swap Form</title>
+    <link rel="stylesheet" href="./style.css" />
   </head>
-
   <body>
-    <div class = "container">
     <div class="cursor-magic" id="cursorMagic">
-      <!-- Pointer Layer -->
       <div class="pointer-wrap" id="pointerWrap">
         <div class="pointer-gradient"></div>
       </div>
-      <!-- Pattern Layer -->
       <div class="pattern"></div>
 
-      <div class = "content">
-      <div class="swap-card">
-        <form id="swapForm">
-          <!-- From Amount Section -->
-          <div class="form-group">
-            <label for="fromAmount" class="label">You Send</label>
-            <div class="input-group">
-              <input
-                type="number"
-                id="fromAmount"
-                placeholder="0.0"
-                step="any"
-                min="0"
-              />
-              <div class="select-wrapper">
-                <!-- Custom dropdown for "You Send" -->
-                <div class="custom-select" id="fromCurrencyWrapper">
-                  <div class="custom-select-trigger" id="fromCurrencyTrigger">
-                    <img
-                      id="fromCurrencyImage"
-                      src="./tokens/ETH.svg"
-                      alt="Token"
-                      class="token-icon"
-                    />
-                    <span id="fromCurrencyLabel">ETH</span>
-                    <i class="arrow-down"></i>
+      <!-- Portfolio Panel -->
+      <div class="portfolio-container">
+        <div class="portfolio-panel" id="portfolioPanel">
+          <div class="portfolio-header">
+            <h2>Portfolio</h2>
+          </div>
+          <div class="portfolio-content">
+            <div class="total-value">
+              <span>Total Balance</span>
+              <strong id="totalBalance">Loading...</strong>
+            </div>
+            <div class="token-list" id="tokenList">
+              <!-- Token items will be dynamically inserted here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Toggle Button (Moved Outside) -->
+        <button class="toggle-button" id="togglePortfolio">
+          <i class="arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- Content Layer -->
+      <div class="container">
+        <div class="swap-card">
+          <!-- Updated Form Layout -->
+          <form id="swapForm">
+            <!-- From Amount Section -->
+            <div class="form-group">
+              <div class="form-header">
+                <label for="fromAmount" class="label">You Send</label>
+                <div class="rate-info">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="40"
+                    height="40"
+                    viewBox="0 0 34 34"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="wallet-icon"
+                  >
+                    <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4" />
+                    <path d="M4 6v12c0 1.1.9 2 2 2h14v-4" />
+                    <path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z" />
+                  </svg>
+                  <span class="balance-text" id="fromBalance">0.00 ETH</span>
+                </div>
+              </div>
+              <div class="input-group">
+                <input
+                  type="number"
+                  id="fromAmount"
+                  placeholder="0.00"
+                  step="any"                  
+                />
+                <div class="select-wrapper">
+                  <div class="custom-select" id="fromCurrencyWrapper">
+                    <div class="custom-select-trigger" id="fromCurrencyTrigger">
+                      <img
+                        id="fromCurrencyImage"
+                        src="./tokens/ETH.svg"
+                        alt="Token"
+                        class="token-icon"
+                      />
+                      <span id="fromCurrencyLabel">ETH</span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="arrow-icon"
+                      >
+                        <path d="m6 9 6 6 6-6" />
+                      </svg>
+                    </div>
+                    <ul class="custom-options" id="fromCurrencyOptions"></ul>
                   </div>
-                  <ul class="custom-options" id="fromCurrencyOptions">
-                    <!-- Dynamic options will be inserted here -->
-                  </ul>
                 </div>
               </div>
             </div>
-            <div class="rate-info" id="fromBalance">
-              Wallet Balance: 0.00 ETH
-            </div>
-          </div>
 
-          <!-- Swap Button and Rate Section -->
-          <div class="estimation-section">
-            <button type="button" class="swap-button" id="swapButton">
-              ↑↓
+            <!-- Exchange Rate Section -->
+            <div class="exchange-section">
+              <button type="button" class="swap-button" id="swapButton">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="swap-icon"
+                >
+                  <path d="M12 3v18M7 8l5-5 5 5M7 16l5 5 5-5" />
+                </svg>
+              </button>             
+            </div>
+
+            <!-- To Amount Section -->
+            <div class="form-group">
+              <div class="form-header">
+                <label for="toAmount" class="label">You Receive</label>
+                <div class="rate-info">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="wallet-icon"
+                  >
+                    <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4" />
+                    <path d="M4 6v12c0 1.1.9 2 2 2h14v-4" />
+                    <path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z" />
+                  </svg>
+                  <span class="balance-text" id="toBalance">0.00 OKB</span>
+                </div>
+              </div>
+              <div class="input-group">
+                <input type="number" id="toAmount" placeholder="0.00" step="any"                  
+                />
+                <div class="select-wrapper">
+                  <div class="custom-select" id="toCurrencyWrapper">
+                    <div class="custom-select-trigger" id="toCurrencyTrigger">
+                      <img
+                        id="toCurrencyImage"
+                        src="./tokens/OKB.svg"
+                        alt="Token"
+                        class="token-icon"
+                      />
+                      <span id="toCurrencyLabel">OKB</span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="arrow-icon"
+                      >
+                        <path d="m6 9 6 6 6-6" />
+                      </svg>
+                    </div>
+
+                    <ul class="custom-options" id="toCurrencyOptions"></ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="error-message" id="errorMessage" style="display: none">
+              Please enter a valid amount
+            </div>
+
+           
+            <div class="exchange-rate" id="exchangeRate">
+              <span class="rate-label">Rate:</span>
+            </div>
+
+            <button type="submit" class="submit-button" id="submitButton">
+              Exchange
             </button>
-            <div id="exchangeRate">1 ETH = 3500 USDT</div>
-          </div>
-
-          <!-- To Amount Section -->
-          <div class="form-group">
-            <label for="toAmount" class="label">You Receive</label>
-            <div class="input-group">
-              <input type="number" id="toAmount" placeholder="0.0" readonly />
-              <div class="select-wrapper">
-                <!-- Custom dropdown for "You Receive" -->
-                <div class="custom-select" id="toCurrencyWrapper">
-                  <div class="custom-select-trigger" id="toCurrencyTrigger">
-                    <img
-                      id="toCurrencyImage"
-                      src="./tokens/OKB.svg"
-                      alt="Token"
-                      class="token-icon"
-                    />
-                    <span id="toCurrencyLabel">OKB</span>
-                    <i class="arrow-down"></i>
-                  </div>
-                  <ul class="custom-options" id="toCurrencyOptions">
-                    <!-- Dynamic options will be inserted here -->
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="rate-info" id="toBalance">Wallet Balance: 0.00 OKB</div>
-          </div>
-
-          <!-- Error Message -->
-          <div class="error-message" id="errorMessage" style="display: none">
-            Please enter a valid amount
-          </div>
-
-          <!-- Overlay for GIF -->
-          <div id="gifOverlay" class="overlay">
-            <div class="gif-container">
-              <img
-                id="swapGif"
-                src="./assets/rocket.gif"
-                alt="Swap Animation"
-              />
-            </div>
-          </div>
-
-          <!-- The swap button and other elements remain the same -->
-          <button type="submit" class="submit-button" id="submitButton">
-            Swap Now
-          </button>
-        </form>
+          </form>
+        </div>
       </div>
+
+      <div id="gifOverlay" class="overlay">
+        <div class="gif-container">
+          <img
+            id="swapGif"
+            src="./assets/rocket.gif"
+            alt="Swap Animation"
+          />
+        </div>
       </div>
+
     </div>
 
     <script src="./script.js"></script>
